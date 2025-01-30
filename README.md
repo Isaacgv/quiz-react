@@ -5,4 +5,4 @@ npx expo install react-native-reanimated
 npx expo install react-native-gesture-handler
 
 # Install skia
-npx expo install @shopify/react-native-skia
+npx expo install @shopify/react-native-skia@1.5.0

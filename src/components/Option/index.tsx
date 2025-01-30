@@ -1,16 +1,19 @@
 import { useEffect } from 'react';
 import { Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
-import {
+import  {
   Canvas,
   Path,
   Skia,
-  useValue,
-  runTiming,
   BlurMask,
   Circle,
-  Easing
+  
 } from '@shopify/react-native-skia';
 
+import Animated, { 
+  useSharedValue,
+  withTiming,
+  Easing
+ } from 'react-native-reanimated';
 import { styles } from './styles';
 import { THEME } from '../../styles/theme';
 
@@ -23,8 +26,8 @@ const CHECK_SIZE = 28;
 const CHECK_STROKE = 2;
 
 export function Option({ checked, title, ...rest }: Props) {
-  const percentage = useValue(0);
-  const circle = useValue(0);
+  const percentage = useSharedValue(0);
+  const circle = useSharedValue(0);
 
   const RADIUS = (CHECK_SIZE - CHECK_STROKE) / 2;
   const CENTER_CIRCLE = RADIUS / 2;
@@ -35,10 +38,10 @@ export function Option({ checked, title, ...rest }: Props) {
 
   useEffect(() => {
     if(checked) {
-      runTiming(percentage, 1, { duration: 700 })
-      runTiming(circle, CENTER_CIRCLE, { easing: Easing.bounce })
+      percentage.value = withTiming(1, { duration: 700 })
+      circle.value = withTiming(CENTER_CIRCLE, { easing: Easing.bounce })
     } else {
-      runTiming(circle, 0, { duration: 300 })
+      circle.value = withTiming(0, { duration: 300 })
     }
   },[checked])
 
@@ -56,7 +59,7 @@ export function Option({ checked, title, ...rest }: Props) {
         {title}
       </Text>
 
-      <Canvas style={{ height: CHECK_SIZE * 2, width: CHECK_SIZE * 2 }}>
+      <Canvas style={{ height: CHECK_SIZE * 2, width: CHECK_SIZE * 2 }} tvParallaxProperties={undefined} >
         <Path 
           path={path}
           color={THEME.COLORS.GREY_500}

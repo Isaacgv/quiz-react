@@ -13,3 +13,6 @@ npm i react-native-svg-transformer --save-dev
 
 # EXPO-AV
 npx expo install expo-av
+
+# Vibration
+npx expo install expo-haptics
